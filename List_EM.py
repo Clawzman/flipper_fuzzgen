@@ -56,8 +56,8 @@ class Fuzzer:
     }
     
     NFC_PROTOCOLS = {
-        "16": ("MIFARE Classic 1K", 4, 0xFFFFFFFF, []),
-        "17": ("MIFARE Classic 4K", 4, 0xFFFFFFFF, []),
+        "16": ("MIFARE Classic 1K     w/prefix", 4, 0xFFFFFFFF, [0x04, 0x08, 0x12]),
+        "17": ("MIFARE Classic 4K     w/prefix", 4, 0xFFFFFFFF, [0x04, 0x08, 0x12]),
         "18": ("MIFARE Ultralight     w/prefix", 7, 0xFFFFFFFFFFFFFF, [0x04]),
         "19": ("DESFire EV1", 16, 0xFFFFFFFFFFFFFFFF, []),
         "20": ("iCLASS     w/prefix", 8, 0xFFFFFFFFFFFFFFFF, [0xEC]),
@@ -144,5 +144,12 @@ if __name__ == '__main__':
                 output_file += '.txt'
 
             fuzzer.generate_ids(choice, output_file, num_ids, use_prefix)
-            break
+
+            another = input(f"\n{Colors.BOLD}Do you want to generate another list? (y/n): {Colors.ENDC}").strip().lower()
+            if another != 'y':
+                print(f"{Colors.OKGREEN}Exiting program. Have a great day!{Colors.ENDC}")
+                break  
+
+       else:
+            print(f"{Colors.FAIL}Invalid choice! Please select a valid protocol (1-28).{Colors.ENDC}")
 
