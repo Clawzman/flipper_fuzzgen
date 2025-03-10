@@ -150,6 +150,6 @@ if __name__ == '__main__':
                 print(f"{Colors.OKGREEN}Exiting program. Have a great day!{Colors.ENDC}")
                 break  
 
-       else:
+        else:
             print(f"{Colors.FAIL}Invalid choice! Please select a valid protocol (1-28).{Colors.ENDC}")
 
