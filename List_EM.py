@@ -77,7 +77,7 @@ class Fuzzer:
     def __init__(self):
         self.protocols = {**self.RFID_PROTOCOLS, **self.NFC_PROTOCOLS, **self.IBUTTON_PROTOCOLS}
     
-    def generate_ids(self, id_type, output_file, num_ids, use_prefix):
+    def generate_ids(self, id_type, output_file, num_ids, use_prefix, selected_prefixes):
         name, id_length, id_max, prefixes = self.protocols[id_type]
         print(f"{Colors.OKCYAN}Generating {num_ids} {name} IDs...{Colors.ENDC}")
         
@@ -85,7 +85,7 @@ class Fuzzer:
             with open(output_file, 'w') as file:
                 for i in range(num_ids):
                     if use_prefix and prefixes:
-                        prefix = random.choice(prefixes)
+                        prefix = random.choice(selected_prefixes)
                         prefix_hex = f"{prefix:02X}"
                         remaining_length = id_length - len(prefix_hex) // 2
                         remaining_id = random.randint(0, (1 << (remaining_length * 8)) - 1)
@@ -132,8 +132,26 @@ if __name__ == '__main__':
             
             name, _, _, prefixes = fuzzer.protocols[choice]
             use_prefix = False
-            if prefixes:  
+            if prefixes:
                 use_prefix = input(f"{Colors.BOLD}Use manufacturer-specific prefixes? (y/n): {Colors.ENDC}").strip().lower() == 'y'
+                selected_prefixes = prefixes
+                if use_prefix:
+                    print(f"{Colors.OKCYAN}Available prefixes for {name}:{Colors.ENDC}")
+                    for idx, pfx in enumerate(prefixes):
+                        print(f"{Colors.OKBLUE}{idx + 1}. 0x{pfx:02X}{Colors.ENDC}")
+                    prefix_choice = input(f"{Colors.BOLD}Select prefix(es) by number (comma-separated, leave empty for all): {Colors.ENDC}").strip()
+                    if prefix_choice:
+                        try:
+                            selected_indexes = [int(i) - 1 for i in prefix_choice.split(',') if i.strip().isdigit()]
+                            selected_prefixes = [prefixes[i] for i in selected_indexes if 0 <= i < len(prefixes)]
+                            if not selected_prefixes:
+                                raise ValueError
+                        except Exception:
+                            print(f"{Colors.FAIL}Invalid selection, using all available prefixes.{Colors.ENDC}")
+                            selected_prefixes = prefixes
+            else:
+                use_prefix = False
+                selected_prefixes = []
             
             num_ids = input(f"{Colors.BOLD}Enter number of IDs to generate (default: 100,000): {Colors.ENDC}").strip()
             num_ids = int(num_ids) if num_ids.isdigit() and int(num_ids) > 0 else 100000
@@ -143,7 +161,7 @@ if __name__ == '__main__':
             if not output_file.endswith('.txt'):
                 output_file += '.txt'
 
-            fuzzer.generate_ids(choice, output_file, num_ids, use_prefix)
+            fuzzer.generate_ids(choice, output_file, num_ids, use_prefix, selected_prefixes)
 
             another = input(f"\n{Colors.BOLD}Do you want to generate another list? (y/n): {Colors.ENDC}").strip().lower()
             if another != 'y':
