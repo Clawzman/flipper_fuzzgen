@@ -9,6 +9,7 @@ You can choose to generate IDs with or without manufacturer-specific prefixes ba
 ## Features:
 - **Supports multiple protocols**: Generate IDs for 15 RFID protocols, 5 NFC protocols, and 7 iButton protocols.
 - **Prefix option**: Choose to generate IDs with manufacturer-specific prefixes (if available).
+- **Choose specific prefix(es)**: If multiple prefixes are available for a protocol,the user can, use all available prefixes (default), or select one or more prefixes manually by index.
 - **Customizable ID length**: Control the number of IDs to generate and the length of each ID.
 - **Output options**: IDs are saved to a `.txt` file, making it easy to use for testing or other purposes.
 - **Easy to use**: The script is simple to run and interact with via the terminal.
