@@ -1,7 +1,7 @@
-# flipper_fuzzgen
-# Flipper Zero RFID/NFC/iButton Fuzzer Generator
+# Flipper Fuzzer/Bruteforce
+# Flipper Zero RFID/NFC/iButton Fuzzer List Generator
 
-This is a **Flipper Zero RFID/NFC/iButton Fuzzer Generator** script that allows users to generate random RFID, NFC, and iButton IDs for various protocols. The tool is designed to help with testing and experimentation with RFID/NFC amd iButton technologies.
+This is a **Flipper Zero RFID/NFC/iButton Fuzzer List Generator** script that allows users to generate random RFID, NFC, and iButton IDs for various protocols. The tool is designed to help with testing and experimentation with RFID/NFC amd iButton technologies.
 
 The script supports generating IDs for multiple protocols, including popular ones like **EM4100**, **HID Prox**, **MIFARE Classic**, **iClass**, and more. 
 You can choose to generate IDs with or without manufacturer-specific prefixes based on the selected protocol.
